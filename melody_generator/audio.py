@@ -7,15 +7,16 @@ from scipy.io import wavfile
 @dataclass(frozen=True, slots=True)
 class Audio:
     melody: str
+    sample_rate: int
 
     def dump(self, path: str):
-        samples, t = [], np.linspace(0.0, 1.0, 48000)
+        samples, t = [], np.linspace(0.0, 1.0, self.sample_rate)
 
         for note in self.melody:
             sample = np.sin(2 * np.pi * get_frequency(note) * t)
             samples.append(sample[: int(len(sample) / 3)])
 
-        wavfile.write(path, 48000, np.concatenate(samples))
+        wavfile.write(path, self.sample_rate, np.concatenate(samples))
 
 
 def get_frequency(note: str) -> float:
