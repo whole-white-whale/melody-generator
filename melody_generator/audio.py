@@ -1,6 +1,7 @@
 import numpy as np
 
 from dataclasses import dataclass
+from numpy.typing import NDArray
 from scipy.io import wavfile
 
 
@@ -8,40 +9,47 @@ from scipy.io import wavfile
 class Audio:
     melody: str
     sample_rate: int
+    speed: int
 
     def dump(self, path: str):
-        samples, t = [], np.linspace(0.0, 1.0, self.sample_rate)
+        wavfile.write(path, self.sample_rate, self.get_wave())
 
-        for note in self.melody:
-            sample = np.sin(2 * np.pi * get_frequency(note) * t)
-            samples.append(sample[: int(len(sample) / 3)])
+    def get_wave(self) -> NDArray[np.float64]:
+        return np.concatenate(
+            [self.get_sample(note) for note in self.melody], dtype=np.float64
+        )
 
-        wavfile.write(path, self.sample_rate, np.concatenate(samples))
+    def get_sample(self, note: str) -> NDArray[np.float64]:
+        duration = 15.0 / self.speed
 
+        return (
+            2.0
+            / np.pi
+            * np.tan(
+                np.sin(
+                    2.0
+                    * np.pi
+                    * self.get_frequency(note)
+                    * np.linspace(
+                        0.0,
+                        duration,
+                        int(self.sample_rate * duration),
+                        dtype=np.float64,
+                    ),
+                    dtype=np.float64,
+                )
+            )
+        )
 
-def get_frequency(note: str) -> float:
-    frequency = 0.0
+    def get_frequency(self, note: str) -> float:
+        frequencies = {
+            "1": 440.00,
+            "2": 493.88,
+            "3": 523.25,
+            "4": 587.33,
+            "5": 659.25,
+            "6": 698.46,
+            "7": 392.00,
+        }
 
-    match note:
-        case "1":
-            frequency = 440.00
-
-        case "2":
-            frequency = 493.88
-
-        case "3":
-            frequency = 523.25
-
-        case "4":
-            frequency = 587.33
-
-        case "5":
-            frequency = 659.25
-
-        case "6":
-            frequency = 698.46
-
-        case "7":
-            frequency = 392.00
-
-    return frequency
+        return frequencies[note]
