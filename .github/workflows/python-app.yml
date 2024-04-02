@@ -21,3 +21,6 @@ jobs:
     - name: "Test"
       run: |
         poetry run pytest
+    - name: "Lint"
+      run: |
+        poetry run pylint melody_generator
