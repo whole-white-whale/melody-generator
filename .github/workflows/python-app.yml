@@ -18,6 +18,9 @@ jobs:
     - name: "Install dependencies"
       run: |
         pip install pipx && pipx install poetry && poetry install
+    - name: "Type"
+      run: |
+        poetry run pyright
     - name: "Test"
       run: |
         poetry run pytest

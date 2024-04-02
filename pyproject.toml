@@ -10,6 +10,9 @@ readme = "README.md"
 python = "^3.11"
 scipy = "^1.12.0"
 
+[tool.poetry.group.type.dependencies]
+pyright = "^1.1.356"
+
 [tool.poetry.group.test.dependencies]
 pytest = "^8.1.1"
 
