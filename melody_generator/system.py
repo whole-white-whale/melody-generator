@@ -18,6 +18,8 @@ class System:
 
     @classmethod
     def from_configuration(cls, configuration: Sequence[str], start_symbol="1"):
+        """Построить стохастическую L-систему, соответствующую данной конфигурации."""
+
         symbols, rules = set(), set()
 
         for line in configuration:
