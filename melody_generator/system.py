@@ -1,7 +1,7 @@
 import random
 
 from dataclasses import dataclass
-from typing import Generator, Sequence
+from typing import Generator
 
 from melody_generator.rule import Rule
 
@@ -11,26 +11,6 @@ class System:
     symbols: set[str]
     start_symbol: str
     rules: set[Rule]
-
-    @classmethod
-    def from_configuration(cls, configuration: Sequence[str], start_symbol="1"):
-        symbols, rules = set(), set()
-
-        for line in configuration:
-            left, _, right = line.partition("->")
-
-            left_symbol, right_symbols = left.strip(), tuple(
-                symbol for symbol in right if not symbol.isspace()
-            )
-
-            symbols.add(left_symbol)
-
-            for symbol in right_symbols:
-                symbols.add(symbol)
-
-            rules.add(Rule(left_symbol, right_symbols))
-
-        return System(symbols, start_symbol, rules)
 
     def get_rules_with_left_symbol(self, symbol: str) -> set[Rule]:
         return {rule for rule in self.rules if rule.left_symbol == symbol}
