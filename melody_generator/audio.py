@@ -12,7 +12,7 @@ from scipy.io import wavfile
 class Audio:
     """Аудиофайл."""
 
-    melody: str
+    melody: list[str]
     sample_rate: int
     speed: int
 
