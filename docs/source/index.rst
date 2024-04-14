@@ -11,3 +11,4 @@ Welcome to Melody Generator's documentation!
    :caption: Содержание
 
    audio
+   rule
