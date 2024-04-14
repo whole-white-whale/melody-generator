@@ -12,3 +12,4 @@ Welcome to Melody Generator's documentation!
 
    audio
    rule
+   system
